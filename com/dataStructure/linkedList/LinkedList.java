@@ -6,8 +6,8 @@ public class LinkedList {
 	
 	Node head;
 	
-		// Each time to insert element anywhere, you will need to traverse from head only, 
-		// so flag and store head element and each time start traversing from head's next element check only.
+		// Each time to insert element anywhere in the list, you will need to traverse from head only, 
+		// so store head element and each time start traversing from head's next element check only.
 		public void insert(int data){
 			Node node = new Node();
 			node.data = data;
@@ -32,7 +32,26 @@ public class LinkedList {
 		head = node;
 	}
 	
-	public void insertCircular(int data){
+	public void insertAt(int index, int data){
+			
+			Node node = new Node();
+			node.data = data;
+			node.next = null;
+			
+			int count = 0;
+			Node n = head;
+			while(n.next != null){
+				if(count == index-1){
+					node.next = n.next;
+					n.next = node;
+					break;
+				}
+				n = n.next;
+				count++;
+			}
+		}
+	
+	public void insertNodeToMakeListCircular(int data){
 		Node node = new Node();
 		node.data = data;
 		node.next = head;
@@ -42,25 +61,6 @@ public class LinkedList {
 			n = n.next;
 		}
 		n.next = node;
-	}
-	
-	public void insertAt(int index, int data){
-		
-		Node node = new Node();
-		node.data = data;
-		node.next = null;
-		
-		int count = 0;
-		Node n = head;
-		while(n.next != null){
-			if(count == index-1){
-				node.next = n.next;
-				n.next = node;
-				break;
-			}
-			n = n.next;
-			count++;
-		}
 	}
 	
 	public Boolean isListCircular(){
@@ -75,30 +75,28 @@ public class LinkedList {
 				break;
 			}
 		}
-		
-		
 		return isListCircular;
 	}
 	
-public void insertLoopAt(int index, int data){
-		
-		Node node = new Node();
-		node.data = data;
-		node.next = null;
-		
-		int count = 0;
-		Node n = head;
-		while(n.next != null){
-			if(count == index){
-				node.next = n;
+	public void insertNodeToMakeLoopInList(int index, int data){
+			
+			Node node = new Node();
+			node.data = data;
+			node.next = null;
+			
+			int count = 0;
+			Node n = head;
+			while(n.next != null){
+				if(count == index){
+					node.next = n;
+				}
+				n = n.next;
+				count++;
 			}
-			n = n.next;
-			count++;
+			n.next = node;
 		}
-		n.next = node;
-	}
-	
-	// Using HashSet
+		
+	// Loop Detection Solution - Using HashSet
 	public Boolean isListHasLoop(){
 		Boolean isLoopDetected = false;
 		Node n = head;
@@ -121,7 +119,7 @@ public void insertLoopAt(int index, int data){
 		return isLoopDetected;
 	}
 	
-	// Using slow-fast pointer -  Floyd’s Cycle detection algorithm
+	// Loop Detection Solution - Using slow-fast pointer -  Floyd’s Cycle detection algorithm
 	public Boolean detectLoop(){
 		
 		Boolean isLoopDetected = false;
@@ -137,10 +135,10 @@ public void insertLoopAt(int index, int data){
 				break;
 			}
 		}
-		
 		return isLoopDetected;
 	}
 	
+	// Loop Detection and Removal Solution
 	public Boolean detectAndRemoveLoop(){
 			
 			Boolean isLoopDetected = false;
@@ -153,20 +151,30 @@ public void insertLoopAt(int index, int data){
 				
 				if(slow == fast){
 					removeLoop(slow);
+					isLoopDetected = true;
 				}
 			}
 			
 			return isLoopDetected;
-		}
+	}
+	
 	public void removeLoop(Node slow){
 		Node ptr1 = head;
 		Node ptr2 = null;
 		
 		while(1 == 1){
+			ptr2 = slow;
 			while(ptr2 != ptr1 && ptr2 != slow){
-				
+				ptr2 = ptr2.next;
 			}
+			
+			if(ptr2.next == ptr1){
+				break;
+			} 
+			
+			ptr1 = ptr1.next;
 		}
+		ptr2.next = null;
 	}
 	
 	public void show(){

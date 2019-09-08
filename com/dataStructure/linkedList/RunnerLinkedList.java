@@ -10,12 +10,14 @@ public class RunnerLinkedList {
 		list.insertAtFirst(42);
 		list.insertAt(2, 55);
 		
-		//	list.insertCircular(21);		// If you will uncomment this, It will be circular list
+		//	list.insertNodeToMakeListCircular(21);		// If you will uncomment this, It will be circular list
 		System.out.println("Is list Circular : "+list.isListCircular());
 	
-		//	list.insertLoopAt(2, 66);		// If you will uncomment this, there will be loop in list
+		//	list.insertNodeToMakeLoopInList(2, 66);		// If you will uncomment this, there will be loop in list
 		System.out.println("Is loop detected - Using slow-fast pointer : "+list.detectLoop());
 		System.out.println("Is loop detected - Using HashSet : "+list.isListHasLoop());
+		
+		System.out.println("Detected and removed loop : "+list.detectAndRemoveLoop());
 		
 		
 		list.show();
